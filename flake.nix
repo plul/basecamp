@@ -14,41 +14,21 @@
       ...
     }:
     {
-      # Modules using the NixOS module system
-      rootModule = {
-        imports = [
-          ./modules/just.nix
-          ./modules/markdown.nix
-          ./modules/mk-shell.nix
-          ./modules/nix.nix
-          ./modules/rust.nix
-          ./modules/toml.nix
-        ];
-      };
-
-      lib =
-        pkgs:
-        let
-          inherit (pkgs) lib;
-          inherit (lib) mkOption types;
-        in
+      # Modules using the NixOS module system.
+      rootModule =
+        { pkgs, config, ... }:
         {
-          mkEnableOptionDefaultTrue =
-            description:
-            mkOption {
-              inherit description;
-              type = types.bool;
-              default = true;
-            };
-          mkPackageOption =
-            default:
-            mkOption {
-              description = "The package to use.";
-              type = types.package;
-              inherit default;
-            };
-          rust = import ./lib/rust.nix;
+          imports = [
+            ./src/modules/just.nix
+            ./src/modules/markdown.nix
+            ./src/modules/mk-shell.nix
+            ./src/modules/nix.nix
+            ./src/modules/rust.nix
+            ./src/modules/toml.nix
+          ];
         };
+
+      lib = import ./src/lib.nix;
 
       # Evaluate basecamp config.
       eval =
@@ -61,7 +41,7 @@
         in
         p.lib.evalModules {
           specialArgs.pkgs = p;
-          specialArgs.basecampLib = self.lib p;
+          specialArgs.basecamp.lib = self.lib p;
           modules = [
             self.rootModule
             { inherit config; }
@@ -69,10 +49,10 @@
         };
 
       # Evaluate basecamp config, and return just the package set.
-      evalPackages = args: (self.eval args).config.packages;
+      evalPackages = evalArgs: (self.eval evalArgs).config.packages;
 
-      # mkShell but with NixOS modules
-      mkDevShell =
+      # mkShell but with (opinionated) NixOS modules
+      mkShell =
         {
           pkgs,
           config ? { },
@@ -83,26 +63,31 @@
         in
         pkgs.mkShell { packages = builtins.attrValues basecampPackages ++ (packages pkgs); };
 
-      devShells."x86_64-linux".default = self.mkDevShell {
-        pkgs = import nixpkgs { system = "x86_64-linux"; };
-
-        config = {
-          # TODO: remove
-          just.enable = true;
-          markdown.enable = true;
-          nix.enable = true;
-          rust.enable = true;
-          rust.rust-analyzer.nightly = true;
-          rust.cargo-udeps.enable = true;
+      packages."x86_64-linux" =
+        let
+          pkgs = import nixpkgs { system = "x86_64-linux"; };
+          docs = import ./src/docs.nix { inherit self pkgs; };
+        in
+        {
+          inherit (docs) options-markdown docs;
         };
 
-        packages = pkgs: [
-          pkgs.fd
-          pkgs.just
-          pkgs.nodePackages.prettier
-          pkgs.nixfmt-rfc-style
-          pkgs.watchexec
-        ];
-      };
+      devShells."x86_64-linux" =
+        let
+          pkgs = import nixpkgs { system = "x86_64-linux"; };
+        in
+        {
+          default = self.mkShell {
+            inherit pkgs;
+
+            config = {
+              just.enable = true;
+              markdown.enable = true;
+              nix.enable = true;
+            };
+
+            packages = pkgs: [ pkgs.watchexec ];
+          };
+        };
     };
 }

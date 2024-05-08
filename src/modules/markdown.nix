@@ -1,18 +1,13 @@
 {
-  basecampLib,
+  basecamp,
   pkgs,
   config,
   ...
 }:
 let
-  inherit (basecampLib) mkPackageOption mkEnableOptionDefaultTrue;
-  inherit (pkgs) lib writeShellApplication writeShellScriptBin;
-  inherit (lib)
-    types
-    mkIf
-    mkOption
-    mkEnableOption
-    ;
+  inherit (basecamp.lib) mkPackageOption mkEnableOptionDefaultTrue;
+  inherit (pkgs) lib writeShellApplication;
+  inherit (lib) mkIf mkEnableOption;
   cfg = config.markdown;
 in
 {

@@ -12,43 +12,27 @@ check-nix:
 
 # Check formatting
 check-fmt:
-    just check-fmt-just
-    just check-fmt-nix
-    just check-fmt-markdown
-
-# Check formatting of justfile
-check-fmt-just:
-    just --unstable --fmt --check
-
-# Check formatting of Nix
-check-fmt-nix:
-    fd -e=nix -X nixfmt --check
-
-# Check formatting of Markdown
-check-fmt-markdown:
-    fd -e=md -X prettier --check
+    check-fmt-just
+    check-fmt-nix
+    check-fmt-markdown
 
 # Format project
 fmt:
-    just fmt-just
-    just fmt-nix
-    just fmt-markdown
+    fmt-just
+    fmt-nix
+    fmt-markdown
 
-# Format Justfile
-fmt-just:
-    just --unstable --fmt
-
-# Format Nix
-fmt-nix:
-    fd -e=nix -X nixfmt
-
-# Format Markdown
-fmt-markdown:
-    fd -e=md -X prettier --write 
+# (re)-generate options docs:
+generate-docs:
+    nix build .#docs
+    cp --dereference result docs/index.html
+    chmod +w docs/index.html
+    rm result
 
 # Update flake inputs
 update-flake-inputs:
     nix flake update
 
+# Run `nix flake check` on changes
 watch:
     watchexec --restart --clear -- nix flake check

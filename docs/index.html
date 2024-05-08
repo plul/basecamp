@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Basecamp Options Reference</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Basecamp Options Reference</h1>
+</header>
+<h2>packages</h2>
+<p>Exported packages. These are included in shells created with
+<code>basecamp.mkShell</code></p>
+<p><em>Type:</em> attribute set of package</p>
+<p><em>Default:</em> <code>{ }</code></p>
+<p><em>Example:</em></p>
+<pre><code>{
+  foo = &lt;function&gt;;
+}</code></pre>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/mk-shell.nix">&lt;basecamp/src/modules/mk-shell.nix&gt;</a></li>
+</ul>
+<h2>just.enable</h2>
+<p>Whether to enable Enable just (justfile) module.</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>false</code></p>
+<p><em>Example:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/just.nix">&lt;basecamp/src/modules/just.nix&gt;</a></li>
+</ul>
+<h2>just.package</h2>
+<p>The package to use.</p>
+<p><em>Type:</em> package</p>
+<p><em>Default:</em> <code>&lt;derivation just-1.25.2&gt;</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/just.nix">&lt;basecamp/src/modules/just.nix&gt;</a></li>
+</ul>
+<h2>markdown.enable</h2>
+<p>Whether to enable Enable Markdown module.</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>false</code></p>
+<p><em>Example:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/markdown.nix">&lt;basecamp/src/modules/markdown.nix&gt;</a></li>
+</ul>
+<h2>markdown.prettier.enable</h2>
+<p>Enable prettier for formatting Markdown.</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/markdown.nix">&lt;basecamp/src/modules/markdown.nix&gt;</a></li>
+</ul>
+<h2>markdown.prettier.package</h2>
+<p>The package to use.</p>
+<p><em>Type:</em> package</p>
+<p><em>Default:</em> <code>&lt;derivation prettier-3.2.5&gt;</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/markdown.nix">&lt;basecamp/src/modules/markdown.nix&gt;</a></li>
+</ul>
+<h2>nix.enable</h2>
+<p>Whether to enable Enable nix module.</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>false</code></p>
+<p><em>Example:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/nix.nix">&lt;basecamp/src/modules/nix.nix&gt;</a></li>
+</ul>
+<h2>nix.nixfmt.enable</h2>
+<p>Enable nixfmt</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/nix.nix">&lt;basecamp/src/modules/nix.nix&gt;</a></li>
+</ul>
+<h2>nix.nixfmt.package</h2>
+<p>The package to use.</p>
+<p><em>Type:</em> package</p>
+<p><em>Default:</em>
+<code>&lt;derivation nixfmt-unstable-2024-03-01&gt;</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/nix.nix">&lt;basecamp/src/modules/nix.nix&gt;</a></li>
+</ul>
+<h2>rust.enable</h2>
+<p>Whether to enable Enables Rust module…</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>false</code></p>
+<p><em>Example:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;basecamp/src/modules/rust.nix&gt;</a></li>
+</ul>
+<h2>rust.cargo-udeps.enable</h2>
+<p>Whether to enable Enables cargo-udeps…</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>false</code></p>
+<p><em>Example:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;basecamp/src/modules/rust.nix&gt;</a></li>
+</ul>
+<h2>rust.clippy.enable</h2>
+<p>Enables Clippy.</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;basecamp/src/modules/rust.nix&gt;</a></li>
+</ul>
+<h2>rust.extraExtensions</h2>
+<p>Sets extra components to install with the main toolchain, see
+https://rust-lang.github.io/rustup/concepts/components.html</p>
+<p><em>Type:</em> list of string</p>
+<p><em>Default:</em> <code>[ ]</code></p>
+<p><em>Example:</em></p>
+<pre><code>[
+  &quot;rust-docs&quot;
+]</code></pre>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;basecamp/src/modules/rust.nix&gt;</a></li>
+</ul>
+<h2>rust.rust-analyzer.enable</h2>
+<p>Enables rust-analyzer.</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;basecamp/src/modules/rust.nix&gt;</a></li>
+</ul>
+<h2>rust.rust-analyzer.nightly</h2>
+<p>Whether to enable Forces use of a nightly rust-analyzer…</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>false</code></p>
+<p><em>Example:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;basecamp/src/modules/rust.nix&gt;</a></li>
+</ul>
+<h2>rust.rust-src.enable</h2>
+<p>Enables rust-src component.</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;basecamp/src/modules/rust.nix&gt;</a></li>
+</ul>
+<h2>rust.rustfmt.enable</h2>
+<p>Enables rustfmt.</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;basecamp/src/modules/rust.nix&gt;</a></li>
+</ul>
+<h2>rust.rustfmt.nightly</h2>
+<p>Forces use of a nightly rustfmt.</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;basecamp/src/modules/rust.nix&gt;</a></li>
+</ul>
+<h2>rust.toolchain</h2>
+<p>Determines base toolchain, e.g. stable.</p>
+<p><em>Type:</em> one of “stable”, “beta”, “nightly”</p>
+<p><em>Default:</em> <code>"stable"</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;basecamp/src/modules/rust.nix&gt;</a></li>
+</ul>
+<h2>toml.enable</h2>
+<p>Whether to enable Enable TOML module.</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>false</code></p>
+<p><em>Example:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/toml.nix">&lt;basecamp/src/modules/toml.nix&gt;</a></li>
+</ul>
+<h2>toml.taplo.enable</h2>
+<p>Enable taplo.</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/toml.nix">&lt;basecamp/src/modules/toml.nix&gt;</a></li>
+</ul>
+<h2>toml.taplo.package</h2>
+<p>The package to use.</p>
+<p><em>Type:</em> package</p>
+<p><em>Default:</em> <code>&lt;derivation taplo-0.9.0&gt;</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/toml.nix">&lt;basecamp/src/modules/toml.nix&gt;</a></li>
+</ul>
+</body>
+</html>

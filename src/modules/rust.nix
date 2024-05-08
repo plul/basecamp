@@ -1,11 +1,11 @@
 {
-  basecampLib,
+  basecamp,
   pkgs,
   config,
   ...
 }:
 let
-  inherit (basecampLib) mkPackageOption mkEnableOptionDefaultTrue;
+  inherit (basecamp.lib) mkEnableOptionDefaultTrue;
   inherit (pkgs) lib writeShellApplication writeShellScriptBin;
   inherit (lib)
     types
@@ -18,9 +18,9 @@ let
 in
 {
   options.rust = {
-    enable = mkEnableOption "Enable Rust module";
+    enable = mkEnableOption "Enables Rust module.";
     toolchain = mkOption {
-      description = "Base toolchain, e.g. stable";
+      description = "Determines base toolchain, e.g. stable.";
       type = types.enum [
         "stable"
         "beta"
@@ -29,71 +29,76 @@ in
       default = "stable";
     };
     extraExtensions = mkOption {
-      description = "Set of extra components to install with the main toolchain, see https://rust-lang.github.io/rustup/concepts/components.html";
+      description = "Sets extra components to install with the main toolchain, see https://rust-lang.github.io/rustup/concepts/components.html";
       type = types.listOf types.str;
       default = [ ];
       example = [ "rust-docs" ];
     };
     rust-src = {
-      enable = mkEnableOptionDefaultTrue "Enable rust-src component";
+      enable = mkEnableOptionDefaultTrue "Enables rust-src component.";
     };
     clippy = {
-      enable = mkEnableOptionDefaultTrue "Enable clippy";
+      enable = mkEnableOptionDefaultTrue "Enables Clippy.";
     };
     rust-analyzer = {
-      enable = mkEnableOptionDefaultTrue "Enable rust-analyzer";
-      nightly = mkEnableOption "Whether to force a nightly rust-analyzer.";
+      enable = mkEnableOptionDefaultTrue "Enables rust-analyzer.";
+      nightly = mkEnableOption "Forces use of a nightly rust-analyzer.";
     };
     rustfmt = {
-      enable = mkEnableOptionDefaultTrue "Enable rustfmt";
-      nightly = mkEnableOptionDefaultTrue "Whether to force a nightly rustfmt.";
+      enable = mkEnableOptionDefaultTrue "Enables rustfmt.";
+      nightly = mkEnableOptionDefaultTrue "Forces use of a nightly rustfmt.";
     };
     cargo-udeps = {
-      enable = mkEnableOption "Enable cargo-udeps.";
+      enable = mkEnableOption "Enables cargo-udeps.";
     };
 
     # non user facing options
-    internal = {
+    extensions = mkOption {
+      description = "Extensions to be installed with the primary toolchain";
+      type = types.listOf types.str;
+      default = [ ];
+      visible = false;
+    };
+    stable = {
       extensions = mkOption {
-        description = "Extensions to be installed with the primary toolchain";
+        description = "Extensions to install from stable toolchain";
         type = types.listOf types.str;
         default = [ ];
+        visible = false;
       };
-      stable = {
-        extensions = mkOption {
-          description = "Extensions to install from stable toolchain";
-          type = types.listOf types.str;
-          default = [ ];
-        };
-        toolchain = mkOption {
-          description = "Stable toolchain";
-          type = types.nullOr types.package;
-          default = null;
-        };
+      toolchain = mkOption {
+        description = "Stable toolchain";
+        type = types.nullOr types.package;
+        default = null;
+        visible = false;
       };
-      beta = {
-        extensions = mkOption {
-          description = "Extensions to install from beta toolchain";
-          type = types.listOf types.str;
-          default = [ ];
-        };
-        toolchain = mkOption {
-          description = "Beta toolchain";
-          type = types.nullOr types.package;
-          default = null;
-        };
+    };
+    beta = {
+      extensions = mkOption {
+        description = "Extensions to install from beta toolchain";
+        type = types.listOf types.str;
+        default = [ ];
+        visible = false;
       };
-      nightly = {
-        extensions = mkOption {
-          description = "Extensions to install from nightly toolchain";
-          type = types.listOf types.str;
-          default = [ ];
-        };
-        toolchain = mkOption {
-          description = "Nightly toolchain";
-          type = types.nullOr types.package;
-          default = null;
-        };
+      toolchain = mkOption {
+        description = "Beta toolchain";
+        type = types.nullOr types.package;
+        default = null;
+        visible = false;
+      };
+    };
+    nightly = {
+      extensions = mkOption {
+        description = "Extensions to install from nightly toolchain";
+        type = types.listOf types.str;
+        default = [ ];
+        visible = false;
+      };
+      toolchain = mkOption {
+        description = "Nightly toolchain";
+        type = types.nullOr types.package;
+        default = null;
+        visible = false;
       };
     };
   };
@@ -104,18 +109,15 @@ in
         # Enable TOML support as well as a common requisite for Rust development with Cargo
         toml.enable = mkDefault true;
 
-        rust.internal.stable.toolchain = basecampLib.rust.mkStable {
-          inherit pkgs;
-          inherit (config.rust.internal.stable) extensions;
+        rust.stable.toolchain = pkgs.rust-bin.stable.latest.minimal.override {
+          inherit (config.rust.stable) extensions;
         };
-        rust.internal.beta.toolchain = basecampLib.rust.mkBeta {
-          inherit pkgs;
-          inherit (config.rust.internal.beta) extensions;
+        rust.beta.toolchain = pkgs.rust-bin.stable.latest.minimal.override {
+          inherit (config.rust.beta) extensions;
         };
-        rust.internal.nightly.toolchain = basecampLib.rust.mkNightly {
-          inherit pkgs;
-          inherit (config.rust.internal.nightly) extensions;
-        };
+        rust.nightly.toolchain = pkgs.rust-bin.selectLatestNightlyWith (
+          toolchain: toolchain.minimal.override { inherit (config.rust.nightly) extensions; }
+        );
 
         packages.is-direct-dependency = writeShellApplication {
           name = "is-direct-dependency";
@@ -133,24 +135,24 @@ in
 
       # Pick a primary toolchain
       (mkIf (cfg.toolchain == "stable") {
-        rust.internal.stable.extensions = cfg.internal.extensions;
-        packages.rust-toolchain = cfg.internal.stable.toolchain;
+        rust.stable.extensions = cfg.extensions;
+        packages.rust-toolchain = cfg._stable.toolchain;
       })
       (mkIf (cfg.toolchain == "beta") {
-        rust.internal.beta.extensions = cfg.internal.extensions;
-        packages.rust-toolchain = cfg.internal.beta.toolchain;
+        rust.beta.extensions = cfg.extensions;
+        packages.rust-toolchain = cfg._beta.toolchain;
       })
       (mkIf (cfg.toolchain == "nightly") {
-        rust.internal.nightly.extensions = cfg.internal.extensions;
-        packages.rust-toolchain = cfg.internal.nightly.toolchain;
+        rust.nightly.extensions = cfg.extensions;
+        packages.rust-toolchain = cfg._nightly.toolchain;
       })
 
       # rust-src
-      (mkIf cfg.rust-src.enable { rust.internal.extensions = [ "rust-src" ]; })
+      (mkIf cfg.rust-src.enable { rust.extensions = [ "rust-src" ]; })
 
       # Clippy
       (mkIf cfg.clippy.enable {
-        rust.internal.extensions = [ "clippy" ];
+        rust.extensions = [ "clippy" ];
         packages.lint-rust = writeShellApplication {
           name = "lint-rust";
           runtimeInputs = [
@@ -175,19 +177,19 @@ in
         lib.mkMerge [
           (mkIf (!cfg.rust-analyzer.nightly) {
             # Follow primary toolchain
-            rust.internal.extensions = [ "rust-analyzer" ];
+            rust.extensions = [ "rust-analyzer" ];
           })
           (mkIf (cfg.rust-analyzer.nightly) (
             lib.mkMerge [
               # If nigthly is the primary toolchain, include it trivially:
-              (mkIf (cfg.toolchain == "nightly") { rust.internal.extensions = [ "rust-analyzer" ]; })
+              (mkIf (cfg.toolchain == "nightly") { rust.extensions = [ "rust-analyzer" ]; })
 
               # If however nightly is not the primary toolchain:
               (mkIf (cfg.toolchain != "nightly") {
-                rust.internal.nightly.extensions = [ "rust-analyzer" ];
+                rust.nightly.extensions = [ "rust-analyzer" ];
                 packages.rust-analyzer = pkgs.runCommand "rust-analyzer" { } ''
                   mkdir -p $out/bin
-                  ln -s ${config.rust.internal.nightly.toolchain}/bin/rust-analyzer $out/bin/rust-analyzer
+                  ln -s ${config.rust.nightly.toolchain}/bin/rust-analyzer $out/bin/rust-analyzer
                 '';
               })
             ]
@@ -200,23 +202,23 @@ in
         lib.mkMerge [
           (mkIf (!cfg.rustfmt.nightly) {
             # Follow primary toolchain
-            rust.internal.extensions = [ "rustfmt" ];
+            rust.extensions = [ "rustfmt" ];
           })
           (mkIf (cfg.rustfmt.nightly) (
             lib.mkMerge [
               # If nigthly is the primary toolchain, include it trivially:
-              (mkIf (cfg.toolchain == "nightly") { rust.internal.extensions = [ "rustfmt" ]; })
+              (mkIf (cfg.toolchain == "nightly") { rust.extensions = [ "rustfmt" ]; })
 
               # If however nightly is not the primary toolchain:
               (mkIf (cfg.toolchain != "nightly") {
-                rust.internal.nightly.extensions = [ "rustfmt" ];
+                rust.nightly.extensions = [ "rustfmt" ];
                 packages.rustfmt = pkgs.runCommand "rustfmt" { } ''
                   mkdir -p $out/bin
-                  ln -s ${config.rust.internal.nightly.toolchain}/bin/rustfmt $out/bin/rustfmt
+                  ln -s ${config.rust.nightly.toolchain}/bin/rustfmt $out/bin/rustfmt
                 '';
                 packages.cargo-fmt = pkgs.runCommand "cargo-fmt" { } ''
                   mkdir -p $out/bin
-                  ln -s ${config.rust.internal.nightly.toolchain}/bin/cargo-fmt $out/bin/cargo-fmt
+                  ln -s ${config.rust.nightly.toolchain}/bin/cargo-fmt $out/bin/cargo-fmt
                 '';
               })
             ]
