@@ -37,8 +37,8 @@ Set up imports
 
 Then define e.g. a devShell:
 
-```
-    devShells."x86_64-linux".default = basecamp.mkDevShell {
+```nix
+    devShells."x86_64-linux".default = basecamp.mkShell {
       pkgs = import nixpkgs { system = "x86_64-linux"; };
 
       # Enable components depending on what is needed in the project:
