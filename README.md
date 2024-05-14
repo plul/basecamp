@@ -8,7 +8,7 @@ Provisioning of opinionated common dependencies, tools and commands, by leveragi
 
 ## Documentation
 
-* Options reference: <https://plul.github.io/basecamp/>
+- Options reference: <https://plul.github.io/basecamp/>
 
 ## Usage
 

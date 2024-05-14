@@ -22,7 +22,7 @@ fmt:
     fmt-nix
     fmt-markdown
 
-# (re)-generate options docs:
+# (re)-generate options docs
 generate-docs:
     nix build .#docs
     cp --dereference result docs/index.html
