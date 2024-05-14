@@ -136,15 +136,15 @@ in
       # Pick a primary toolchain
       (mkIf (cfg.toolchain == "stable") {
         rust.stable.extensions = cfg.extensions;
-        packages.rust-toolchain = cfg._stable.toolchain;
+        packages.rust-toolchain = cfg.stable.toolchain;
       })
       (mkIf (cfg.toolchain == "beta") {
         rust.beta.extensions = cfg.extensions;
-        packages.rust-toolchain = cfg._beta.toolchain;
+        packages.rust-toolchain = cfg.beta.toolchain;
       })
       (mkIf (cfg.toolchain == "nightly") {
         rust.nightly.extensions = cfg.extensions;
-        packages.rust-toolchain = cfg._nightly.toolchain;
+        packages.rust-toolchain = cfg.nightly.toolchain;
       })
 
       # rust-src
