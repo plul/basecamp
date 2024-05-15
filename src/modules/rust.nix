@@ -121,10 +121,7 @@ in
 
         packages.is-direct-dependency = writeShellApplication {
           name = "is-direct-dependency";
-          runtimeInputs = [
-            # TODO: pin cargo dependency?
-            pkgs.jq
-          ];
+          runtimeInputs = [ pkgs.jq ];
           text = ''
             DEP="''$1"
             set -x
@@ -155,10 +152,7 @@ in
         rust.extensions = [ "clippy" ];
         packages.lint-rust = writeShellApplication {
           name = "lint-rust";
-          runtimeInputs = [
-            # TODO add clippy as input?
-            config.packages.is-direct-dependency
-          ];
+          runtimeInputs = [ config.packages.is-direct-dependency ];
           text = ''
             set -x
             if is-direct-dependency clap; then
