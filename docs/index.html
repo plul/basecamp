@@ -175,12 +175,8 @@
 <h2>packages</h2>
 <p>Exported packages. These are included in shells created with
 <code>basecamp.mkShell</code></p>
-<p><em>Type:</em> attribute set of package</p>
-<p><em>Default:</em> <code>{ }</code></p>
-<p><em>Example:</em></p>
-<pre><code>{
-  foo = &lt;function&gt;;
-}</code></pre>
+<p><em>Type:</em> list of package</p>
+<p><em>Default:</em> <code>[ ]</code></p>
 <p><em>Declared by:</em></p>
 <ul>
 <li><a
@@ -204,6 +200,24 @@ href="https://github.com/plul/basecamp/blob/master/src/modules/just.nix">&lt;bas
 <li><a
 href="https://github.com/plul/basecamp/blob/master/src/modules/just.nix">&lt;basecamp/src/modules/just.nix&gt;</a></li>
 </ul>
+<h2>just.recipes.check-fmt.enable</h2>
+<p>Whether to enable <code>check-fmt-just</code> command</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/just.nix">&lt;basecamp/src/modules/just.nix&gt;</a></li>
+</ul>
+<h2>just.recipes.fmt.enable</h2>
+<p>Whether to enable <code>fmt-just</code> command</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/just.nix">&lt;basecamp/src/modules/just.nix&gt;</a></li>
+</ul>
 <h2>markdown.enable</h2>
 <p>Whether to enable Markdown module</p>
 <p><em>Type:</em> boolean</p>
@@ -213,8 +227,8 @@ href="https://github.com/plul/basecamp/blob/master/src/modules/just.nix">&lt;bas
 <li><a
 href="https://github.com/plul/basecamp/blob/master/src/modules/markdown.nix">&lt;basecamp/src/modules/markdown.nix&gt;</a></li>
 </ul>
-<h2>markdown.prettier.enable</h2>
-<p>Whether to enable prettier formatter</p>
+<h2>markdown.recipes.check-fmt.enable</h2>
+<p>Whether to enable <code>check-fmt-markdown</code> command</p>
 <p><em>Type:</em> boolean</p>
 <p><em>Default:</em> <code>true</code></p>
 <p><em>Declared by:</em></p>
@@ -222,14 +236,74 @@ href="https://github.com/plul/basecamp/blob/master/src/modules/markdown.nix">&lt
 <li><a
 href="https://github.com/plul/basecamp/blob/master/src/modules/markdown.nix">&lt;basecamp/src/modules/markdown.nix&gt;</a></li>
 </ul>
-<h2>markdown.prettier.package</h2>
-<p>The package to use.</p>
-<p><em>Type:</em> package</p>
-<p><em>Default:</em> <code>&lt;derivation prettier-3.2.5&gt;</code></p>
+<h2>markdown.recipes.fmt.enable</h2>
+<p>Whether to enable <code>fmt-markdown</code> command</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
 <p><em>Declared by:</em></p>
 <ul>
 <li><a
 href="https://github.com/plul/basecamp/blob/master/src/modules/markdown.nix">&lt;basecamp/src/modules/markdown.nix&gt;</a></li>
+</ul>
+<h2>namedPackages</h2>
+<p>Exported packages. These are included in shells created with
+<code>basecamp.mkShell</code></p>
+<p><em>Type:</em> attribute set of package</p>
+<p><em>Default:</em> <code>{ }</code></p>
+<p><em>Example:</em></p>
+<pre><code>{
+  foo = &lt;function&gt;;
+}</code></pre>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/mk-shell.nix">&lt;basecamp/src/modules/mk-shell.nix&gt;</a></li>
+</ul>
+<h2>nickel.enable</h2>
+<p>Whether to enable nickel module.</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>false</code></p>
+<p><em>Example:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/nickel.nix">&lt;basecamp/src/modules/nickel.nix&gt;</a></li>
+</ul>
+<h2>nickel.package</h2>
+<p>The package to use.</p>
+<p><em>Type:</em> package</p>
+<p><em>Default:</em> <code>&lt;derivation nickel-1.6.0&gt;</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/nickel.nix">&lt;basecamp/src/modules/nickel.nix&gt;</a></li>
+</ul>
+<h2>nickel.languageServer.enable</h2>
+<p>Whether to enable language server for Nickel</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/nickel.nix">&lt;basecamp/src/modules/nickel.nix&gt;</a></li>
+</ul>
+<h2>nickel.languageServer.package</h2>
+<p>The package to use.</p>
+<p><em>Type:</em> package</p>
+<p><em>Default:</em> <code>&lt;derivation nls-1.6.0&gt;</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/nickel.nix">&lt;basecamp/src/modules/nickel.nix&gt;</a></li>
+</ul>
+<h2>nickel.recipes.fmt.enable</h2>
+<p>Whether to enable <code>fmt-nickel</code> command</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/nickel.nix">&lt;basecamp/src/modules/nickel.nix&gt;</a></li>
 </ul>
 <h2>nix.enable</h2>
 <p>Whether to enable nix module</p>
@@ -241,9 +315,10 @@ href="https://github.com/plul/basecamp/blob/master/src/modules/markdown.nix">&lt
 href="https://github.com/plul/basecamp/blob/master/src/modules/nix.nix">&lt;basecamp/src/modules/nix.nix&gt;</a></li>
 </ul>
 <h2>nix.nixfmt.enable</h2>
-<p>Whether to enable nixfmt formatter</p>
+<p>Whether to enable nixfmt formatter.</p>
 <p><em>Type:</em> boolean</p>
-<p><em>Default:</em> <code>true</code></p>
+<p><em>Default:</em> <code>false</code></p>
+<p><em>Example:</em> <code>true</code></p>
 <p><em>Declared by:</em></p>
 <ul>
 <li><a
@@ -259,8 +334,81 @@ href="https://github.com/plul/basecamp/blob/master/src/modules/nix.nix">&lt;base
 <li><a
 href="https://github.com/plul/basecamp/blob/master/src/modules/nix.nix">&lt;basecamp/src/modules/nix.nix&gt;</a></li>
 </ul>
+<h2>nix.recipes.check-fmt.enable</h2>
+<p>Whether to enable <code>check-fmt-nix</code> command</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/nix.nix">&lt;basecamp/src/modules/nix.nix&gt;</a></li>
+</ul>
+<h2>nix.recipes.fmt.enable</h2>
+<p>Whether to enable <code>fmt-nix</code> command</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/nix.nix">&lt;basecamp/src/modules/nix.nix&gt;</a></li>
+</ul>
+<h2>prettier.enable</h2>
+<p>Whether to enable prettier.</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>false</code></p>
+<p><em>Example:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/prettier.nix">&lt;basecamp/src/modules/prettier.nix&gt;</a></li>
+</ul>
+<h2>prettier.package</h2>
+<p>The package to use.</p>
+<p><em>Type:</em> package</p>
+<p><em>Default:</em> <code>&lt;derivation prettier-3.2.5&gt;</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/prettier.nix">&lt;basecamp/src/modules/prettier.nix&gt;</a></li>
+</ul>
+<h2>recipes.check.enable</h2>
+<p>Whether to enable <code>bc-check</code> command</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/recipes.nix">&lt;basecamp/src/modules/recipes.nix&gt;</a></li>
+</ul>
+<h2>recipes.check-fmt.enable</h2>
+<p>Whether to enable <code>bc-check-fmt</code> command</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/recipes.nix">&lt;basecamp/src/modules/recipes.nix&gt;</a></li>
+</ul>
+<h2>recipes.fmt.enable</h2>
+<p>Whether to enable <code>bc-fmt</code> command</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/recipes.nix">&lt;basecamp/src/modules/recipes.nix&gt;</a></li>
+</ul>
+<h2>recipes.lint.enable</h2>
+<p>Whether to enable <code>bc-lint</code> command</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/recipes.nix">&lt;basecamp/src/modules/recipes.nix&gt;</a></li>
+</ul>
 <h2>rust.enable</h2>
-<p>Whether to enable Rust module…</p>
+<p>Whether to enable Rust module.</p>
 <p><em>Type:</em> boolean</p>
 <p><em>Default:</em> <code>false</code></p>
 <p><em>Example:</em> <code>true</code></p>
@@ -297,6 +445,33 @@ https://rust-lang.github.io/rustup/concepts/components.html</p>
 <pre><code>[
   &quot;rust-docs&quot;
 ]</code></pre>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;basecamp/src/modules/rust.nix&gt;</a></li>
+</ul>
+<h2>rust.recipes.check-fmt.enable</h2>
+<p>Whether to enable <code>check-fmt-rust</code> command</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;basecamp/src/modules/rust.nix&gt;</a></li>
+</ul>
+<h2>rust.recipes.fmt.enable</h2>
+<p>Whether to enable <code>fmt-rust</code> command</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;basecamp/src/modules/rust.nix&gt;</a></li>
+</ul>
+<h2>rust.recipes.lint.enable</h2>
+<p>Whether to enable <code>lint-rust</code> command</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
 <p><em>Declared by:</em></p>
 <ul>
 <li><a
@@ -349,7 +524,7 @@ href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;bas
 href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;basecamp/src/modules/rust.nix&gt;</a></li>
 </ul>
 <h2>rust.toolchain</h2>
-<p>Determines base toolchain, e.g. stable.</p>
+<p>Determines base toolchain, e.g. stable</p>
 <p><em>Type:</em> one of “stable”, “beta”, “nightly”</p>
 <p><em>Default:</em> <code>"stable"</code></p>
 <p><em>Declared by:</em></p>
@@ -358,7 +533,7 @@ href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;bas
 href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;basecamp/src/modules/rust.nix&gt;</a></li>
 </ul>
 <h2>toml.enable</h2>
-<p>Whether to enable Enable TOML module.</p>
+<p>Whether to enable TOML module.</p>
 <p><em>Type:</em> boolean</p>
 <p><em>Default:</em> <code>false</code></p>
 <p><em>Example:</em> <code>true</code></p>
@@ -367,8 +542,35 @@ href="https://github.com/plul/basecamp/blob/master/src/modules/rust.nix">&lt;bas
 <li><a
 href="https://github.com/plul/basecamp/blob/master/src/modules/toml.nix">&lt;basecamp/src/modules/toml.nix&gt;</a></li>
 </ul>
+<h2>toml.recipes.check-fmt.enable</h2>
+<p>Whether to enable <code>check-fmt-toml</code> command</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/toml.nix">&lt;basecamp/src/modules/toml.nix&gt;</a></li>
+</ul>
+<h2>toml.recipes.fmt.enable</h2>
+<p>Whether to enable <code>fmt-toml</code> command</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/toml.nix">&lt;basecamp/src/modules/toml.nix&gt;</a></li>
+</ul>
+<h2>toml.recipes.lint.enable</h2>
+<p>Whether to enable <code>lint-toml</code> command</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/modules/toml.nix">&lt;basecamp/src/modules/toml.nix&gt;</a></li>
+</ul>
 <h2>toml.taplo.enable</h2>
-<p>Whether to enable Enable taplo.</p>
+<p>Whether to enable taplo</p>
 <p><em>Type:</em> boolean</p>
 <p><em>Default:</em> <code>true</code></p>
 <p><em>Declared by:</em></p>

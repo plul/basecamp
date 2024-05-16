@@ -24,9 +24,10 @@
             ./src/modules/mk-shell.nix
             ./src/modules/nickel.nix
             ./src/modules/nix.nix
+            ./src/modules/prettier.nix
+            ./src/modules/recipes.nix
             ./src/modules/rust.nix
             ./src/modules/toml.nix
-            ./src/modules/prettier.nix
           ];
         };
 

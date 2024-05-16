@@ -6,8 +6,8 @@
 }:
 let
   inherit (basecamp.lib) mkPackageOption mkEnableOptionDefaultTrue;
-  inherit (pkgs) lib writeShellApplication;
-  inherit (lib)
+  inherit (pkgs) writeShellApplication;
+  inherit (pkgs.lib)
     mkIf
     optionals
     getExe

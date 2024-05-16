@@ -1,4 +1,4 @@
-# NixOS module defining options suitable for forwarding to mkShell
+# Options suitable for forwarding to mkShell
 { config, pkgs, ... }:
 let
   inherit (pkgs) lib;
