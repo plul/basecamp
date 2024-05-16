@@ -22,9 +22,11 @@
             ./src/modules/just.nix
             ./src/modules/markdown.nix
             ./src/modules/mk-shell.nix
+            ./src/modules/nickel.nix
             ./src/modules/nix.nix
             ./src/modules/rust.nix
             ./src/modules/toml.nix
+            ./src/modules/prettier.nix
           ];
         };
 
@@ -49,7 +51,12 @@
         };
 
       # Evaluate basecamp config, and return just the package set.
-      evalPackages = evalArgs: (self.eval evalArgs).config.packages;
+      evalPackages =
+        evalArgs:
+        let
+          config = (self.eval evalArgs).config;
+        in
+        config.packages ++ (builtins.attrValues config.namedPackages);
 
       # mkShell but with (opinionated) NixOS modules
       mkShell =
@@ -61,7 +68,7 @@
         let
           basecampPackages = self.evalPackages { inherit pkgs config; };
         in
-        pkgs.mkShell { packages = builtins.attrValues basecampPackages ++ (packages pkgs); };
+        pkgs.mkShell { packages = basecampPackages ++ (packages pkgs); };
 
       packages."x86_64-linux" =
         let

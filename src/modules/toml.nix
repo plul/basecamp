@@ -7,58 +7,56 @@
 let
   inherit (basecamp.lib) mkPackageOption mkEnableOptionDefaultTrue;
   inherit (pkgs) lib writeShellApplication;
-  inherit (lib) mkIf mkEnableOption;
+  inherit (lib)
+    getExe
+    mkIf
+    mkEnableOption
+    optionals
+    ;
   cfg = config.toml;
+  fd = getExe pkgs.fd;
+  taplo = getExe cfg.taplo.package;
 in
 {
   options.toml = {
-    enable = mkEnableOption "Enable TOML module";
+    enable = mkEnableOption "TOML module";
     taplo = {
-      enable = mkEnableOptionDefaultTrue "Enable taplo.";
+      enable = mkEnableOptionDefaultTrue "taplo";
       package = mkPackageOption pkgs.taplo;
     };
+    recipes.fmt.enable = mkEnableOptionDefaultTrue "`fmt-toml` command";
+    recipes.check-fmt.enable = mkEnableOptionDefaultTrue "`check-fmt-toml` command";
+    recipes.lint.enable = mkEnableOptionDefaultTrue "`lint-toml` command";
   };
 
   config = mkIf cfg.enable (
     lib.mkMerge [
       (mkIf cfg.taplo.enable {
-        packages.taplo = cfg.taplo.package;
+        packages = [ ] ++ optionals cfg.taplo.enable [ cfg.taplo.package ];
 
-        packages.lint-toml = writeShellApplication {
+        namedPackages.lint-toml = mkIf cfg.recipes.lint.enable (writeShellApplication {
           name = "lint-toml";
-          runtimeInputs = [
-            cfg.taplo.package
-            pkgs.fd
-          ];
           text = ''
             set -x
-            fd --extension=toml --exec-batch taplo lint
+            ${fd} --extension=toml --exec-batch ${taplo} lint
           '';
-        };
+        });
 
-        packages.check-fmt-toml = writeShellApplication {
+        namedPackages.check-fmt-toml = mkIf cfg.recipes.check-fmt.enable (writeShellApplication {
           name = "check-fmt-toml";
-          runtimeInputs = [
-            cfg.taplo.package
-            pkgs.fd
-          ];
           text = ''
             set -x
-            fd --extension=toml --exec-batch taplo fmt --check
+            ${fd} --extension=toml --exec-batch ${taplo} fmt --check
           '';
-        };
+        });
 
-        packages.fmt-toml = writeShellApplication {
+        namedPackages.fmt-toml = mkIf cfg.recipes.fmt.enable (writeShellApplication {
           name = "fmt-toml";
-          runtimeInputs = [
-            cfg.taplo.package
-            pkgs.fd
-          ];
           text = ''
             set -x
-            fd --extension=toml --exec-batch taplo fmt
+            ${fd} --extension=toml --exec-batch ${taplo} fmt
           '';
-        };
+        });
       })
     ]
   );

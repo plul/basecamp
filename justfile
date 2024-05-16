@@ -35,4 +35,4 @@ update-flake-inputs:
 
 # Run `nix flake check` on changes
 watch:
-    watchexec --restart --clear -- nix flake check
+    watchexec --restart --clear -- nix flake check 

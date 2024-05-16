@@ -18,9 +18,9 @@ let
 in
 {
   options.rust = {
-    enable = mkEnableOption "Rust module.";
+    enable = mkEnableOption "Rust module";
     toolchain = mkOption {
-      description = "Determines base toolchain, e.g. stable.";
+      description = "Determines base toolchain, e.g. stable";
       type = types.enum [
         "stable"
         "beta"
@@ -51,6 +51,9 @@ in
     cargo-udeps = {
       enable = mkEnableOption "cargo-udeps";
     };
+    recipes.check-fmt.enable = mkEnableOptionDefaultTrue "`check-fmt-rust` command";
+    recipes.fmt.enable = mkEnableOptionDefaultTrue "`fmt-rust` command";
+    recipes.lint.enable = mkEnableOptionDefaultTrue "`lint-rust` command";
 
     # non user facing options
     extensions = mkOption {
@@ -119,7 +122,7 @@ in
           toolchain: toolchain.minimal.override { inherit (config.rust.nightly) extensions; }
         );
 
-        packages.is-direct-dependency = writeShellApplication {
+        namedPackages.is-direct-dependency = writeShellApplication {
           name = "is-direct-dependency";
           runtimeInputs = [ pkgs.jq ];
           text = ''
@@ -133,15 +136,15 @@ in
       # Pick a primary toolchain
       (mkIf (cfg.toolchain == "stable") {
         rust.stable.extensions = cfg.extensions;
-        packages.rust-toolchain = cfg.stable.toolchain;
+        namedPackages.rust-toolchain = cfg.stable.toolchain;
       })
       (mkIf (cfg.toolchain == "beta") {
         rust.beta.extensions = cfg.extensions;
-        packages.rust-toolchain = cfg.beta.toolchain;
+        namedPackages.rust-toolchain = cfg.beta.toolchain;
       })
       (mkIf (cfg.toolchain == "nightly") {
         rust.nightly.extensions = cfg.extensions;
-        packages.rust-toolchain = cfg.nightly.toolchain;
+        namedPackages.rust-toolchain = cfg.nightly.toolchain;
       })
 
       # rust-src
@@ -150,7 +153,7 @@ in
       # Clippy
       (mkIf cfg.clippy.enable {
         rust.extensions = [ "clippy" ];
-        packages.lint-rust = writeShellApplication {
+        namedPackages.lint-rust = mkIf cfg.recipes.lint.enable (writeShellApplication {
           name = "lint-rust";
           runtimeInputs = [ config.packages.is-direct-dependency ];
           text = ''
@@ -163,7 +166,7 @@ in
               -- \
               --deny warnings
           '';
-        };
+        });
       })
 
       # rust-analyzer
@@ -181,7 +184,7 @@ in
               # If however nightly is not the primary toolchain:
               (mkIf (cfg.toolchain != "nightly") {
                 rust.nightly.extensions = [ "rust-analyzer" ];
-                packages.rust-analyzer = pkgs.runCommand "rust-analyzer" { } ''
+                namedPackages.rust-analyzer = pkgs.runCommand "rust-analyzer" { } ''
                   mkdir -p $out/bin
                   ln -s ${config.rust.nightly.toolchain}/bin/rust-analyzer $out/bin/rust-analyzer
                 '';
@@ -206,37 +209,48 @@ in
               # If however nightly is not the primary toolchain:
               (mkIf (cfg.toolchain != "nightly") {
                 rust.nightly.extensions = [ "rustfmt" ];
-                packages.rustfmt = pkgs.runCommand "rustfmt" { } ''
-                  mkdir -p $out/bin
-                  ln -s ${config.rust.nightly.toolchain}/bin/rustfmt $out/bin/rustfmt
-                '';
-                packages.cargo-fmt = pkgs.runCommand "cargo-fmt" { } ''
-                  mkdir -p $out/bin
-                  ln -s ${config.rust.nightly.toolchain}/bin/cargo-fmt $out/bin/cargo-fmt
-                '';
+                packages =
+                  let
+                    rustfmt = pkgs.runCommand "rustfmt" { } ''
+                      mkdir -p $out/bin
+                      ln -s ${config.rust.nightly.toolchain}/bin/rustfmt $out/bin/rustfmt
+                    '';
+                    cargo-fmt = pkgs.runCommand "cargo-fmt" { } ''
+                      mkdir -p $out/bin
+                      ln -s ${config.rust.nightly.toolchain}/bin/cargo-fmt $out/bin/cargo-fmt
+                    '';
+                  in
+                  [
+                    rustfmt
+                    cargo-fmt
+                  ];
               })
             ]
           ))
           {
-            packages.fmt-rust = writeShellScriptBin "fmt-rust" ''
-              cargo fmt
-            '';
-            packages.check-fmt-rust = writeShellScriptBin "check-fmt-rust" ''
-              cargo fmt -- --check
-            '';
+            packages.fmt-rust = mkIf cfg.recipes.fmt.enable (writeShellApplication {
+              name = "fmt-rust";
+              text = ''
+                set -x
+                cargo fmt
+              '';
+            });
+            packages.check-fmt-rust = mkIf cfg.recipes.check-fmt.enable (writeShellApplication {
+              name = "check-fmt-rust";
+              text = ''
+                set -x
+                cargo fmt -- --check
+              '';
+            });
           }
         ]
       ))
 
       # packages: cargo-udeps
       (mkIf config.rust.cargo-udeps.enable {
-        packages.cargo-udeps =
-          let
-            binary = lib.getExe pkgs.cargo-udeps;
-          in
-          writeShellScriptBin "cargo-udeps" ''
-            RUSTC_BOOTSTRAP=1 exec "${binary}" "$@"
-          '';
+        packages.cargo-udeps = writeShellScriptBin "cargo-udeps" ''
+          RUSTC_BOOTSTRAP=1 exec "${lib.getExe pkgs.cargo-udeps}" "$@"
+        '';
       })
     ]
   );
