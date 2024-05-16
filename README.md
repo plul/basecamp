@@ -46,8 +46,6 @@ Then define e.g. a devShell:
         # For example, enable the markdown component to allow formatting of the README:
         markdown.enable = true;
 
-        nix.enable = true;
-        just.enable = true;
         rust.enable = true;
 
         # Optionally customize components.
@@ -62,3 +60,5 @@ Then define e.g. a devShell:
       ];
     };
 ```
+
+Some modules are enabled by default: `nix`, `just` and `markdown`.

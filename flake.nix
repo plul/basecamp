@@ -79,13 +79,6 @@
         {
           default = self.mkShell {
             inherit pkgs;
-
-            config = {
-              just.enable = true;
-              markdown.enable = true;
-              nix.enable = true;
-            };
-
             packages = pkgs: [ pkgs.watchexec ];
           };
         };

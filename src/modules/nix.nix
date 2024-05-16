@@ -7,14 +7,14 @@
 let
   inherit (basecamp.lib) mkPackageOption mkEnableOptionDefaultTrue;
   inherit (pkgs) lib writeShellApplication;
-  inherit (lib) mkIf mkEnableOption;
+  inherit (lib) mkIf;
   cfg = config.nix;
 in
 {
   options.nix = {
-    enable = mkEnableOption "Enable nix module";
+    enable = mkEnableOptionDefaultTrue "nix module";
     nixfmt = {
-      enable = mkEnableOptionDefaultTrue "Enable nixfmt";
+      enable = mkEnableOptionDefaultTrue "nixfmt formatter";
       package = mkPackageOption pkgs.nixfmt-rfc-style;
     };
   };

@@ -8,7 +8,7 @@ in
   mkEnableOptionDefaultTrue =
     description:
     mkOption {
-      inherit description;
+      description = "Whether to enable " + description;
       type = types.bool;
       default = true;
     };

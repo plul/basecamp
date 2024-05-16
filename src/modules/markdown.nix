@@ -7,14 +7,14 @@
 let
   inherit (basecamp.lib) mkPackageOption mkEnableOptionDefaultTrue;
   inherit (pkgs) lib writeShellApplication;
-  inherit (lib) mkIf mkEnableOption;
+  inherit (lib) mkIf;
   cfg = config.markdown;
 in
 {
   options.markdown = {
-    enable = mkEnableOption "Enable Markdown module";
+    enable = mkEnableOptionDefaultTrue "Markdown module";
     prettier = {
-      enable = mkEnableOptionDefaultTrue "Enable prettier for formatting Markdown.";
+      enable = mkEnableOptionDefaultTrue "prettier formatter";
       package = mkPackageOption pkgs.nodePackages.prettier;
     };
   };

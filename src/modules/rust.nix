@@ -18,7 +18,7 @@ let
 in
 {
   options.rust = {
-    enable = mkEnableOption "Enables Rust module.";
+    enable = mkEnableOption "Rust module.";
     toolchain = mkOption {
       description = "Determines base toolchain, e.g. stable.";
       type = types.enum [
@@ -35,21 +35,21 @@ in
       example = [ "rust-docs" ];
     };
     rust-src = {
-      enable = mkEnableOptionDefaultTrue "Enables rust-src component.";
+      enable = mkEnableOptionDefaultTrue "rust-src component";
     };
     clippy = {
-      enable = mkEnableOptionDefaultTrue "Enables Clippy.";
+      enable = mkEnableOptionDefaultTrue "Clippy";
     };
     rust-analyzer = {
-      enable = mkEnableOptionDefaultTrue "Enables rust-analyzer.";
-      nightly = mkEnableOption "Forces use of a nightly rust-analyzer.";
+      enable = mkEnableOptionDefaultTrue "rust-analyzer";
+      nightly = mkEnableOption "use of a nightly rust-analyzer";
     };
     rustfmt = {
-      enable = mkEnableOptionDefaultTrue "Enables rustfmt.";
-      nightly = mkEnableOptionDefaultTrue "Forces use of a nightly rustfmt.";
+      enable = mkEnableOptionDefaultTrue "rustfmt formatter";
+      nightly = mkEnableOptionDefaultTrue "use of a nightly rustfmt";
     };
     cargo-udeps = {
-      enable = mkEnableOption "Enables cargo-udeps.";
+      enable = mkEnableOption "cargo-udeps";
     };
 
     # non user facing options

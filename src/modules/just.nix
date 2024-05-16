@@ -5,14 +5,14 @@
   ...
 }:
 let
-  inherit (basecamp.lib) mkPackageOption;
+  inherit (basecamp.lib) mkPackageOption mkEnableOptionDefaultTrue;
   inherit (pkgs) lib writeShellApplication;
-  inherit (lib) mkIf mkEnableOption;
+  inherit (lib) mkIf;
   cfg = config.just;
 in
 {
   options.just = {
-    enable = mkEnableOption "Enable just (justfile) module";
+    enable = mkEnableOptionDefaultTrue "just (justfile) module";
     package = mkPackageOption pkgs.just;
   };
 
