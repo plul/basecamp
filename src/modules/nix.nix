@@ -1,13 +1,13 @@
-{
-  basecamp,
-  pkgs,
-  config,
-  ...
-}:
+{ pkgs, config, ... }:
 let
-  inherit (basecamp.lib) mkPackageOption mkEnableOptionDefaultTrue;
   inherit (pkgs) lib writeShellApplication;
-  inherit (lib) mkIf getExe mkEnableOption;
+  inherit (lib)
+    mkIf
+    getExe
+    mkEnableOption
+    mkPackageOptionDefault
+    mkEnableOptionDefaultTrue
+    ;
   cfg = config.nix;
   fd = getExe pkgs.fd;
   nixfmt = getExe cfg.nixfmt.package;
@@ -17,7 +17,7 @@ in
     enable = mkEnableOptionDefaultTrue "nix module";
     nixfmt = {
       enable = mkEnableOption "nixfmt formatter";
-      package = mkPackageOption pkgs.nixfmt-rfc-style;
+      package = mkPackageOptionDefault pkgs.nixfmt-rfc-style;
     };
     recipes.fmt.enable = mkEnableOptionDefaultTrue "`fmt-nix` command";
     recipes.check-fmt.enable = mkEnableOptionDefaultTrue "`check-fmt-nix` command";

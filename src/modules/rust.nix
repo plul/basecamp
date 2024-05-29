@@ -1,16 +1,11 @@
-{
-  basecamp,
-  pkgs,
-  config,
-  ...
-}:
+{ pkgs, config, ... }:
 let
-  inherit (basecamp.lib) mkEnableOptionDefaultTrue;
   inherit (pkgs) writeShellApplication writeShellScriptBin;
   inherit (pkgs.lib)
     getExe
     mkDefault
     mkEnableOption
+    mkEnableOptionDefaultTrue
     mkIf
     mkMerge
     mkOption

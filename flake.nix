@@ -31,7 +31,19 @@
           ];
         };
 
-      lib = import ./src/lib.nix;
+      overlays.default = final: prev: {
+        lib = prev.lib // {
+          mkEnableOptionDefaultTrue = description: prev.lib.mkEnableOption description // { default = true; };
+
+          mkPackageOptionDefault =
+            default:
+            prev.lib.mkOption {
+              description = "The package to use.";
+              type = prev.lib.types.package;
+              inherit default;
+            };
+        };
+      };
 
       # Evaluate basecamp config.
       eval =
@@ -40,18 +52,20 @@
           config ? { },
         }:
         let
-          p = pkgs.appendOverlays [ (import rust-overlay) ];
+          p = pkgs.appendOverlays [
+            self.overlays.default
+            (import rust-overlay)
+          ];
         in
         p.lib.evalModules {
           specialArgs.pkgs = p;
-          specialArgs.basecamp.lib = self.lib p;
           modules = [
             self.rootModule
             { inherit config; }
           ];
         };
 
-      # Evaluate basecamp config, and return just the package set.
+      # Evaluate basecamp config, and return just the package set as a list.
       evalPackages =
         evalArgs:
         let

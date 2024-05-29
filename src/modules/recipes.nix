@@ -1,13 +1,12 @@
-{
-  basecamp,
-  config,
-  pkgs,
-  ...
-}:
+{ config, pkgs, ... }:
 let
-  inherit (basecamp.lib) mkEnableOptionDefaultTrue;
   inherit (pkgs) lib writeShellApplication;
-  inherit (lib) mkIf optionalString getExe;
+  inherit (lib)
+    mkIf
+    optionalString
+    getExe
+    mkEnableOptionDefaultTrue
+    ;
   cfg = config.recipes;
   np = config.namedPackages;
   fmt-just = getExe np.fmt-just;

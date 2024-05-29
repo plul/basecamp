@@ -1,20 +1,19 @@
-{
-  basecamp,
-  pkgs,
-  config,
-  ...
-}:
+{ pkgs, config, ... }:
 let
-  inherit (basecamp.lib) mkPackageOption mkEnableOptionDefaultTrue;
   inherit (pkgs) lib writeShellApplication;
-  inherit (lib) mkIf getExe;
+  inherit (lib)
+    mkIf
+    getExe
+    mkPackageOptionDefault
+    mkEnableOptionDefaultTrue
+    ;
   cfg = config.just;
   just = getExe cfg.package;
 in
 {
   options.just = {
     enable = mkEnableOptionDefaultTrue "just (justfile) module";
-    package = mkPackageOption pkgs.just;
+    package = mkPackageOptionDefault pkgs.just;
     recipes.fmt.enable = mkEnableOptionDefaultTrue "`fmt-just` command";
     recipes.check-fmt.enable = mkEnableOptionDefaultTrue "`check-fmt-just` command";
   };

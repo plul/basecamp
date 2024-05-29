@@ -1,17 +1,13 @@
-{
-  basecamp,
-  pkgs,
-  config,
-  ...
-}:
+{ pkgs, config, ... }:
 let
-  inherit (basecamp.lib) mkPackageOption mkEnableOptionDefaultTrue;
   inherit (pkgs) writeShellApplication;
   inherit (pkgs.lib)
     mkIf
     optionals
     getExe
     mkEnableOption
+    mkPackageOptionDefault
+    mkEnableOptionDefaultTrue
     ;
   cfg = config.nickel;
   fd = getExe pkgs.fd;
@@ -20,10 +16,10 @@ in
 {
   options.nickel = {
     enable = mkEnableOption "nickel module";
-    package = mkPackageOption pkgs.nickel;
+    package = mkPackageOptionDefault pkgs.nickel;
     languageServer = {
       enable = mkEnableOptionDefaultTrue "language server for Nickel";
-      package = mkPackageOption pkgs.nls;
+      package = mkPackageOptionDefault pkgs.nls;
     };
     recipes.fmt.enable = mkEnableOptionDefaultTrue "`fmt-nickel` command";
   };

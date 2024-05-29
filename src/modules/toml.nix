@@ -1,17 +1,13 @@
-{
-  basecamp,
-  pkgs,
-  config,
-  ...
-}:
+{ pkgs, config, ... }:
 let
-  inherit (basecamp.lib) mkPackageOption mkEnableOptionDefaultTrue;
   inherit (pkgs) lib writeShellApplication;
   inherit (lib)
     getExe
     mkIf
     mkEnableOption
     optionals
+    mkPackageOptionDefault
+    mkEnableOptionDefaultTrue
     ;
   cfg = config.toml;
   fd = getExe pkgs.fd;
@@ -22,7 +18,7 @@ in
     enable = mkEnableOption "TOML module";
     taplo = {
       enable = mkEnableOptionDefaultTrue "taplo";
-      package = mkPackageOption pkgs.taplo;
+      package = mkPackageOptionDefault pkgs.taplo;
     };
     recipes.fmt.enable = mkEnableOptionDefaultTrue "`fmt-toml` command";
     recipes.check-fmt.enable = mkEnableOptionDefaultTrue "`check-fmt-toml` command";

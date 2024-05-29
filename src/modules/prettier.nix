@@ -1,19 +1,13 @@
-{
-  basecamp,
-  pkgs,
-  config,
-  ...
-}:
+{ pkgs, config, ... }:
 let
-  inherit (basecamp.lib) mkPackageOption;
   inherit (pkgs) lib;
-  inherit (lib) mkIf mkEnableOption;
+  inherit (lib) mkIf mkEnableOption mkPackageOptionDefault;
   cfg = config.prettier;
 in
 {
   options.prettier = {
     enable = mkEnableOption "prettier";
-    package = mkPackageOption pkgs.nodePackages.prettier;
+    package = mkPackageOptionDefault pkgs.nodePackages.prettier;
   };
 
   config = mkIf cfg.enable { packages = [ cfg.prettier.package ]; };
