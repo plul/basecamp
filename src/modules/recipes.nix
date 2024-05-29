@@ -19,13 +19,14 @@ let
   check-fmt = getExe np.check-fmt;
   check-fmt-just = getExe np.check-fmt-just;
   check-fmt-markdown = getExe np.check-fmt-markdown;
-  check-fmt-nickel = getExe np.check-fmt-nickel;
+  # check-fmt-nickel = getExe np.check-fmt-nickel;
   check-fmt-nix = getExe np.check-fmt-nix;
   check-fmt-rust = getExe np.check-fmt-rust;
   check-fmt-toml = getExe np.check-fmt-toml;
   lint = getExe np.lint;
   lint-rust = getExe np.lint-rust;
   lint-toml = getExe np.lint-toml;
+  lint-nix = getExe np.lint-nix;
 in
 {
   options.recipes = {
@@ -76,6 +77,7 @@ in
       text = ''
         ${optionalString (config.rust.enable && config.rust.recipes.lint.enable) lint-rust}
         ${optionalString (config.toml.enable && config.toml.recipes.lint.enable) lint-toml}
+        ${optionalString (config.nix.enable && config.nix.recipes.lint.enable) lint-nix}
       '';
     });
   };

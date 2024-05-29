@@ -3,24 +3,16 @@ _list:
 
 # Check project
 check:
-    just check-fmt
-    just check-nix
-
-# Check Nix
-check-nix:
+    bc-check
     nix flake check
 
 # Check formatting
 check-fmt:
-    check-fmt-just
-    check-fmt-nix
-    check-fmt-markdown
+    bc-check-fmt
 
 # Format project
 fmt:
-    fmt-just
-    fmt-nix
-    fmt-markdown
+    bc-fmt
 
 # (re)-generate options docs
 generate-docs:

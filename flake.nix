@@ -16,7 +16,7 @@
     {
       # Modules using the NixOS module system.
       rootModule =
-        { pkgs, config, ... }:
+        { ... }:
         {
           imports = [
             ./src/modules/just.nix
@@ -70,7 +70,7 @@
         {
           pkgs,
           config ? { },
-          packages ? pkgs: [ ],
+          packages ? _pkgs: [ ],
         }:
         let
           basecampPackages = self.evalPackages { inherit pkgs config; };
