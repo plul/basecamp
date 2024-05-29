@@ -1,16 +1,21 @@
-{ pkgs, config, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  inherit (pkgs) writeShellApplication writeShellScriptBin;
-  inherit (pkgs.lib)
+  inherit (lib)
     getExe
     mkDefault
     mkEnableOption
-    mkEnableOptionDefaultTrue
     mkIf
     mkMerge
     mkOption
     types
     ;
+  inherit (pkgs) writeShellApplication writeShellScriptBin;
+  inherit (pkgs.basecamp) mkEnableOptionDefaultTrue;
   cfg = config.rust;
 in
 {

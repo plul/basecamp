@@ -31,17 +31,9 @@
           ];
         };
 
-      overlays.default = final: prev: {
-        lib = prev.lib // {
+      overlays.default = _final: prev: {
+        basecamp = {
           mkEnableOptionDefaultTrue = description: prev.lib.mkEnableOption description // { default = true; };
-
-          mkPackageOptionDefault =
-            default:
-            prev.lib.mkOption {
-              description = "The package to use.";
-              type = prev.lib.types.package;
-              inherit default;
-            };
         };
       };
 

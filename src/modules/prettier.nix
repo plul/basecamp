@@ -1,13 +1,20 @@
-{ pkgs, config, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  inherit (pkgs) lib;
-  inherit (lib) mkIf mkEnableOption mkPackageOptionDefault;
+  inherit (lib) mkIf mkEnableOption mkPackageOption;
   cfg = config.prettier;
 in
 {
   options.prettier = {
     enable = mkEnableOption "prettier";
-    package = mkPackageOptionDefault pkgs.nodePackages.prettier;
+    package = mkPackageOption pkgs [
+      "nodePackages"
+      "prettier"
+    ] { };
   };
 
   config = mkIf cfg.enable { packages = [ cfg.prettier.package ]; };

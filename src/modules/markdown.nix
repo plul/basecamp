@@ -1,7 +1,13 @@
-{ pkgs, config, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  inherit (pkgs) lib writeShellApplication;
-  inherit (lib) mkIf getExe mkEnableOptionDefaultTrue;
+  inherit (lib) mkIf getExe;
+  inherit (pkgs) writeShellApplication;
+  inherit (pkgs.basecamp) mkEnableOptionDefaultTrue;
   cfg = config.markdown;
   fd = getExe pkgs.fd;
   prettier = getExe config.prettier.package;

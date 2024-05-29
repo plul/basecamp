@@ -1,19 +1,19 @@
-{ pkgs, config, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  inherit (pkgs) lib writeShellApplication;
-  inherit (lib)
-    mkIf
-    getExe
-    mkPackageOptionDefault
-    mkEnableOptionDefaultTrue
-    ;
+  inherit (lib) mkIf getExe mkPackageOption;
+  inherit (pkgs) writeShellApplication;
+  inherit (pkgs.basecamp) mkEnableOptionDefaultTrue;
   cfg = config.just;
-  just = getExe cfg.package;
 in
 {
   options.just = {
     enable = mkEnableOptionDefaultTrue "just (justfile) module";
-    package = mkPackageOptionDefault pkgs.just;
+    package = mkPackageOption pkgs "just" { };
     recipes.fmt.enable = mkEnableOptionDefaultTrue "`fmt-just` command";
     recipes.check-fmt.enable = mkEnableOptionDefaultTrue "`check-fmt-just` command";
   };
@@ -25,7 +25,7 @@ in
       name = "check-fmt-just";
       text = ''
         set -x
-        ${just} --unstable --fmt --check
+        ${getExe cfg.package} --unstable --fmt --check
       '';
     });
 
@@ -33,7 +33,7 @@ in
       name = "fmt-just";
       text = ''
         set -x
-        ${just} --unstable --fmt
+        ${getExe cfg.package} --unstable --fmt
       '';
     });
   };

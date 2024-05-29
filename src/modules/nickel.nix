@@ -1,14 +1,19 @@
-{ pkgs, config, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  inherit (pkgs) writeShellApplication;
-  inherit (pkgs.lib)
+  inherit (lib)
     mkIf
     optionals
     getExe
     mkEnableOption
-    mkPackageOptionDefault
-    mkEnableOptionDefaultTrue
+    mkPackageOption
     ;
+  inherit (pkgs) writeShellApplication;
+  inherit (pkgs.basecamp) mkEnableOptionDefaultTrue;
   cfg = config.nickel;
   fd = getExe pkgs.fd;
   nickel = getExe cfg.package;
@@ -16,10 +21,10 @@ in
 {
   options.nickel = {
     enable = mkEnableOption "nickel module";
-    package = mkPackageOptionDefault pkgs.nickel;
+    package = mkPackageOption pkgs "nickel" { };
     languageServer = {
       enable = mkEnableOptionDefaultTrue "language server for Nickel";
-      package = mkPackageOptionDefault pkgs.nls;
+      package = mkPackageOption pkgs "nls" { };
     };
     recipes.fmt.enable = mkEnableOptionDefaultTrue "`fmt-nickel` command";
   };
