@@ -77,6 +77,13 @@ in
         default = [ ];
         visible = false;
       };
+      targets = mkOption {
+        description = "Targets to be installed with the stable toolchain";
+        type = types.listOf types.str;
+        default = [ ];
+        example = [ "wasm32-unknown-unknown" ];
+        visible = false;
+      };
       toolchain = mkOption {
         description = "Stable toolchain";
         type = types.nullOr types.package;
@@ -91,6 +98,13 @@ in
         default = [ ];
         visible = false;
       };
+      targets = mkOption {
+        description = "Targets to be installed with the beta toolchain";
+        type = types.listOf types.str;
+        default = [ ];
+        example = [ "wasm32-unknown-unknown" ];
+        visible = false;
+      };
       toolchain = mkOption {
         description = "Beta toolchain";
         type = types.nullOr types.package;
@@ -103,6 +117,13 @@ in
         description = "Extensions to install from nightly toolchain";
         type = types.listOf types.str;
         default = [ ];
+        visible = false;
+      };
+      targets = mkOption {
+        description = "Targets to be installed with the nightly toolchain";
+        type = types.listOf types.str;
+        default = [ ];
+        example = [ "wasm32-unknown-unknown" ];
         visible = false;
       };
       toolchain = mkOption {
