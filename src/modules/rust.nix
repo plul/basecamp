@@ -56,6 +56,12 @@ in
     recipes.check-fmt.enable = mkEnableOptionDefaultTrue "`check-fmt-rust` command";
     recipes.fmt.enable = mkEnableOptionDefaultTrue "`fmt-rust` command";
     recipes.lint.enable = mkEnableOptionDefaultTrue "`lint-rust` command";
+    targets = mkOption {
+      description = "Targets to be installed with the primary toolchain";
+      type = types.listOf types.str;
+      default = [ ];
+      example = [ "wasm32-unknown-unknown" ];
+    };
 
     # non user facing options
     extensions = mkOption {
@@ -69,6 +75,13 @@ in
         description = "Extensions to install from stable toolchain";
         type = types.listOf types.str;
         default = [ ];
+        visible = false;
+      };
+      targets = mkOption {
+        description = "Targets to be installed with the stable toolchain";
+        type = types.listOf types.str;
+        default = [ ];
+        example = [ "wasm32-unknown-unknown" ];
         visible = false;
       };
       toolchain = mkOption {
@@ -85,6 +98,13 @@ in
         default = [ ];
         visible = false;
       };
+      targets = mkOption {
+        description = "Targets to be installed with the beta toolchain";
+        type = types.listOf types.str;
+        default = [ ];
+        example = [ "wasm32-unknown-unknown" ];
+        visible = false;
+      };
       toolchain = mkOption {
         description = "Beta toolchain";
         type = types.nullOr types.package;
@@ -97,6 +117,13 @@ in
         description = "Extensions to install from nightly toolchain";
         type = types.listOf types.str;
         default = [ ];
+        visible = false;
+      };
+      targets = mkOption {
+        description = "Targets to be installed with the nightly toolchain";
+        type = types.listOf types.str;
+        default = [ ];
+        example = [ "wasm32-unknown-unknown" ];
         visible = false;
       };
       toolchain = mkOption {
@@ -114,13 +141,13 @@ in
       toml.enable = mkDefault true;
 
       rust.stable.toolchain = pkgs.rust-bin.stable.latest.minimal.override {
-        inherit (config.rust.stable) extensions;
+        inherit (config.rust.stable) extensions targets;
       };
       rust.beta.toolchain = pkgs.rust-bin.stable.latest.minimal.override {
-        inherit (config.rust.beta) extensions;
+        inherit (config.rust.beta) extensions targets;
       };
       rust.nightly.toolchain = pkgs.rust-bin.selectLatestNightlyWith (
-        toolchain: toolchain.minimal.override { inherit (config.rust.nightly) extensions; }
+        toolchain: toolchain.minimal.override { inherit (config.rust.nightly) extensions targets; }
       );
 
       namedPackages.is-direct-dependency = writeShellApplication {
@@ -137,14 +164,17 @@ in
     # Pick a primary toolchain
     (mkIf (cfg.toolchain == "stable") {
       rust.stable.extensions = cfg.extensions;
+      rust.stable.targets = cfg.targets;
       namedPackages.rust-toolchain = cfg.stable.toolchain;
     })
     (mkIf (cfg.toolchain == "beta") {
       rust.beta.extensions = cfg.extensions;
+      rust.beta.targets = cfg.targets;
       namedPackages.rust-toolchain = cfg.beta.toolchain;
     })
     (mkIf (cfg.toolchain == "nightly") {
       rust.nightly.extensions = cfg.extensions;
+      rust.nightly.targets = cfg.targets;
       namedPackages.rust-toolchain = cfg.nightly.toolchain;
     })
 
