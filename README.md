@@ -29,9 +29,9 @@ Set up imports
     # (...)
   };
 
-  outputs = { self, basecamp, ... }: {
+  outputs = { basecamp, nixpkgs, ... }: {
     # (...)
-  }
+  };
 }
 ```
 

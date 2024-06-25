@@ -81,10 +81,17 @@
         let
           pkgs = import nixpkgs { system = "x86_64-linux"; };
           docs = import ./src/docs.nix { inherit self pkgs; };
+          templates = import ./src/templates.nix { inherit self pkgs; };
         in
         {
           inherit (docs) options-markdown docs;
+          inherit (templates) template-rust;
         };
+
+      apps."x86_64-linux".template-rust = {
+        type = "app";
+        program = "${self.packages."x86_64-linux".template-rust}/bin/bc-template-rust";
+      };
 
       devShells."x86_64-linux" =
         let
