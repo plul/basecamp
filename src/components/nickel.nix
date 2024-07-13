@@ -6,11 +6,13 @@
 }:
 let
   inherit (lib)
-    mkIf
-    optionals
     getExe
     mkEnableOption
+    mkIf
+    mkOption
     mkPackageOption
+    optionals
+    types
     ;
   inherit (pkgs) writeShellApplication;
   inherit (pkgs.basecamp) mkEnableOptionDefaultTrue;
@@ -26,18 +28,24 @@ in
       enable = mkEnableOptionDefaultTrue "language server for Nickel";
       package = mkPackageOption pkgs "nls" { };
     };
-    recipes.fmt.enable = mkEnableOptionDefaultTrue "`fmt-nickel` command";
+
+    fmt.enable = mkEnableOptionDefaultTrue "formatting of files";
+    fmt.package = mkOption {
+      description = "Package to execute to format files";
+      type = types.package;
+    };
   };
 
   config = mkIf cfg.enable {
+    nickel = {
+      fmt.package = mkIf cfg.fmt.enable (writeShellApplication {
+        name = "basecamp-nickel-fmt";
+        text = ''
+          set -x
+          ${fd} --extension=ncl --exec-batch ${nickel} format
+        '';
+      });
+    };
     packages = [ cfg.package ] ++ optionals cfg.languageServer.enable [ cfg.languageServer.package ];
-
-    namedPackages.fmt-nickel = mkIf cfg.recipes.fmt.enable (writeShellApplication {
-      name = "fmt-nickel";
-      text = ''
-        set -x
-        ${fd} --extension=ncl --exec-batch ${nickel} format
-      '';
-    });
   };
 }

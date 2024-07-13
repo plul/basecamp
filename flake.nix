@@ -14,68 +14,75 @@
       ...
     }:
     {
-      # Modules using the NixOS module system.
-      rootModule =
+      # Root module for components (tree of NixOS modules)
+      components =
         { ... }:
         {
           imports = [
-            ./src/modules/just.nix
-            ./src/modules/markdown.nix
-            ./src/modules/mk-shell.nix
-            ./src/modules/nickel.nix
-            ./src/modules/nix.nix
-            ./src/modules/prettier.nix
-            ./src/modules/recipes.nix
-            ./src/modules/rust.nix
-            ./src/modules/toml.nix
+            ./src/components/just.nix
+            ./src/components/markdown.nix
+            ./src/components/mk-shell.nix
+            ./src/components/nickel.nix
+            ./src/components/nix.nix
+            ./src/components/prettier.nix
+            ./src/components/rust.nix
+            ./src/components/toml.nix
           ];
         };
 
       overlays.default = _final: prev: {
-        basecamp = {
+        basecamp = rec {
           mkEnableOptionDefaultTrue = description: prev.lib.mkEnableOption description // { default = true; };
+          mkFmtOption = {
+            enable = mkEnableOptionDefaultTrue "formatting of files";
+            package = prev.lib.mkOption {
+              description = "Package to execute to format files";
+              type = prev.lib.types.package;
+            };
+          };
+          mkCheckFmtOption = {
+            enable = mkEnableOptionDefaultTrue "check of correct formatting";
+            package = prev.lib.mkOption {
+              description = "Package to execute to check correct formatting";
+              type = prev.lib.types.package;
+            };
+          };
+          mkLintOption = {
+            enable = mkEnableOptionDefaultTrue "linting";
+            package = prev.lib.mkOption {
+              description = "Package to execute to perform linting";
+              type = prev.lib.types.package;
+            };
+          };
         };
       };
 
-      # Evaluate basecamp config.
-      eval =
-        {
-          pkgs,
-          config ? { },
-        }:
-        let
-          p = pkgs.appendOverlays [
-            self.overlays.default
-            (import rust-overlay)
-          ];
-        in
-        p.lib.evalModules {
-          specialArgs.pkgs = p;
-          modules = [
-            self.rootModule
-            { inherit config; }
-          ];
-        };
+      appendOverlays =
+        pkgs:
+        pkgs.appendOverlays [
+          self.overlays.default
+          (import rust-overlay)
+        ];
 
-      # Evaluate basecamp config, and return just the package set as a list.
-      evalPackages =
-        evalArgs:
-        let
-          config = (self.eval evalArgs).config;
-        in
-        config.packages ++ (builtins.attrValues config.namedPackages);
+      eval = {
+        components =
+          {
+            pkgs,
+            config ? { },
+          }:
+          let
+            p = self.appendOverlays pkgs;
+          in
+          p.lib.evalModules {
+            specialArgs.pkgs = p;
+            modules = [
+              self.components
+              { inherit config; }
+            ];
+          };
+      };
 
-      # mkShell but with (opinionated) NixOS modules
-      mkShell =
-        {
-          pkgs,
-          config ? { },
-          packages ? _pkgs: [ ],
-        }:
-        let
-          basecampPackages = self.evalPackages { inherit pkgs config; };
-        in
-        pkgs.mkShell { packages = basecampPackages ++ (packages pkgs); };
+      mkShell = pkgs: config: (self.eval.components { inherit pkgs config; }).config.shell;
 
       packages."x86_64-linux" =
         let
@@ -98,10 +105,7 @@
           pkgs = import nixpkgs { system = "x86_64-linux"; };
         in
         {
-          default = self.mkShell {
-            inherit pkgs;
-            packages = pkgs: [ pkgs.watchexec ];
-          };
+          default = self.mkShell pkgs { packages = [ pkgs.watchexec ]; };
         };
     };
 }

@@ -38,27 +38,25 @@ Set up imports
 Then define e.g. a devShell:
 
 ```nix
-    devShells."x86_64-linux".default = basecamp.mkShell {
-      pkgs = import nixpkgs { system = "x86_64-linux"; };
-
+    devShells."x86_64-linux".default = 
+      let
+        pkgs = import nixpkgs { system = "x86_64-linux"; };
+      in
+    basecamp.mkShell pkgs {
       # Enable components depending on what is needed in the project:
-      config = {
-        # For example, enable the markdown component to allow formatting of the README:
-        markdown.enable = true;
+      rust.enable = true;
 
-        rust.enable = true;
-
-        # Optionally customize components.
-        # Use a stable Rust toolchain but opt for a nightly rust analyzer:
-        rust.toolchain = "stable"; # ("stable" is the default)
-        rust.rust-analyzer.nightly = true;
-      };
+      # Optionally customize components.
+      # Use a stable Rust toolchain but opt for a nightly rust analyzer:
+      rust.toolchain.channel = "stable"; # ("stable" is the default)
+      rust.toolchain.components.rust-analyzer.nightly = true;
 
       # Any additional packages
-      packages = p: [
-        p.watchexec
+      packages = [
+        pkgs.watchexec
       ];
     };
 ```
 
 Some modules are enabled by default: `nix`, `just` and `markdown`.
+For example, enabling the markdown component allows formatting of the project README.

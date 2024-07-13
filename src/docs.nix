@@ -9,7 +9,7 @@ in
   options-markdown =
     let
       options =
-        (self.eval {
+        (self.eval.components {
           inherit pkgs;
           config = { };
         }).options;

@@ -10,10 +10,6 @@ let
     check:
         bc-check
 
-    # Check formatting
-    check-fmt:
-        bc-check-fmt
-
     # Format project
     fmt:
         bc-fmt
@@ -31,17 +27,18 @@ let
         basecamp.inputs.rust-overlay.follows = "rust-overlay";
       };
 
-      outputs = { basecamp, nixpkgs, ... }: {
-        devShells."x86_64-linux".default = basecamp.mkShell {
-          pkgs = import nixpkgs { system = "x86_64-linux"; };
-
-          config = {
-            rust.enable = true;
-          };
-
-          packages = p: [ ];
+      outputs =
+        { basecamp, nixpkgs, ... }:
+        {
+          devShells."x86_64-linux".default =
+            let
+              pkgs = import nixpkgs { system = "x86_64-linux"; };
+            in
+            basecamp.mkShell pkgs {
+              rust.enable = true;
+              packages = [ ];
+            };
         };
-      };
     }
   '';
   rustfmt = ''
