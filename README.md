@@ -61,6 +61,11 @@ Then define e.g. a devShell:
 Some modules are enabled by default: `nix`, `just` and `markdown`.
 For example, enabling the markdown component allows formatting of the project README.
 
+Two primary commands are made available:
+
+- `bc-check`: Validates project (formatting, linting, etc.).
+- `bc-fmt`: Formats the project.
+
 ## Rust project template
 
 Quickstart new Rust project `foo` with:
