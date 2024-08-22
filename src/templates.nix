@@ -68,14 +68,14 @@ let
     edition = "2021"
 
     [workspace.lints.rust]
-    future_incompatible = "deny"
-    nonstandard_style = "deny"
-    rust_2018_idioms = "deny"
+    future_incompatible = { level = "deny", priority = -1 }
+    nonstandard_style = { level = "deny", priority = -1 }
+    rust_2018_idioms = { level = "deny", priority = -1 }
     missing_docs = "warn"
     missing_debug_implementations = "warn"
   '';
   main_rs = ''
-    #![doc = env!("CARGO_PKG_DESCRIPTION")]
+    //! <docstring>.
 
     fn main() {}
   '';
@@ -128,7 +128,8 @@ in
       echo '${workspace_cargo_toml}' > Cargo.toml
       mkdir crates
       nix develop --command cargo init "crates/''${name}"
-      echo '${main_rs}' > "crates/''${name}/src/main.rs"
+      nix develop --command cargo tree
+      echo '${main_rs}' | sed -e "s|<docstring>|''${name}|" > "crates/''${name}/src/main.rs"
       echo '${rustfmt}' > rustfmt.toml
 
       # Format and stage

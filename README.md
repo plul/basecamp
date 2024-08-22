@@ -60,3 +60,13 @@ Then define e.g. a devShell:
 
 Some modules are enabled by default: `nix`, `just` and `markdown`.
 For example, enabling the markdown component allows formatting of the project README.
+
+## Rust project template
+
+Quickstart new Rust project `foo` with:
+
+```console
+nix run github:plul/basecamp#template-rust foo
+```
+
+This creates a new project in directory `foo`.
