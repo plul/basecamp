@@ -128,11 +128,7 @@
           pkgs = import nixpkgs { system = "x86_64-linux"; };
         in
         {
-          default = self.mkShell pkgs {
-            packages = [
-              pkgs.watchexec
-            ];
-          };
+          default = self.mkShell pkgs { packages = [ pkgs.watchexec ]; };
         };
     };
 }
