@@ -33,6 +33,7 @@
       overlays.default = _final: prev: {
         basecamp = rec {
           mkEnableOptionDefaultTrue = description: prev.lib.mkEnableOption description // { default = true; };
+
           mkFmtOption = {
             enable = mkEnableOptionDefaultTrue "formatting of files";
             package = prev.lib.mkOption {
@@ -40,6 +41,7 @@
               type = prev.lib.types.package;
             };
           };
+
           mkCheckFmtOption = {
             enable = mkEnableOptionDefaultTrue "check of correct formatting";
             package = prev.lib.mkOption {
@@ -47,6 +49,7 @@
               type = prev.lib.types.package;
             };
           };
+
           mkLintOption = {
             enable = mkEnableOptionDefaultTrue "linting";
             package = prev.lib.mkOption {
@@ -54,6 +57,26 @@
               type = prev.lib.types.package;
             };
           };
+
+          writeJustfile =
+            {
+              name ? "justfile",
+              recipes,
+              ...
+            }:
+            let
+              indentLines =
+                text: builtins.concatStringsSep "\n" (map (line: "    " + line) (prev.lib.splitString "\n" text));
+
+              # Convert the recipes attribute set into justfile content
+              justfileRecipes = prev.lib.mapAttrsToList (recipe_name: text: ''
+                ${recipe_name}:
+                ${indentLines text}
+              '') recipes;
+              justfileRecipesTrimmed = prev.lib.lists.forEach justfileRecipes prev.lib.strings.trim;
+              justfileContent = builtins.concatStringsSep "\n\n" justfileRecipesTrimmed;
+            in
+            prev.writeText name justfileContent;
         };
       };
 
@@ -105,7 +128,11 @@
           pkgs = import nixpkgs { system = "x86_64-linux"; };
         in
         {
-          default = self.mkShell pkgs { packages = [ pkgs.watchexec ]; };
+          default = self.mkShell pkgs {
+            packages = [
+              pkgs.watchexec
+            ];
+          };
         };
     };
 }
