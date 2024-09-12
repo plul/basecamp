@@ -10,6 +10,7 @@ let
     mkDefault
     mkIf
     mkPackageOption
+    optionals
     optionalString
     ;
   inherit (pkgs) writeShellApplication;
@@ -55,6 +56,12 @@ in
       deadnix = getExe cfg.deadnix.package;
     in
     mkIf cfg.enable {
+      packages =
+        [ ]
+        ++ optionals cfg.nixfmt.enable [ cfg.nixfmt.package ]
+        ++ optionals cfg.nixpkgs-lint.enable [ cfg.nixpkgs-lint.package ]
+        ++ optionals cfg.deadnix.enable [ cfg.deadnix.package ];
+
       nix = {
         fmt.package = mkIf cfg.fmt.enable (
           mkDefault (writeShellApplication {
@@ -88,7 +95,7 @@ in
                 ''}
 
                 ${optionalString (cfg.deadnix.enable) ''
-                  ${fd} --extension=nix --exec-batch ${deadnix} --fail --no-underscore
+                  ${fd} --extension=nix --exec-batch ${deadnix} --fail ${optionalString (cfg.deadnix.noUnderscore) "--no-underscore"}
                 ''}
               '';
             })
