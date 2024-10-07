@@ -40,6 +40,8 @@ in
     shell = mkOption {
       description = "Dev shell";
       type = types.package;
+      readOnly = true;
+      visible = false;
     };
   };
 
