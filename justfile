@@ -6,10 +6,6 @@ check:
     bc-check
     nix flake check
 
-# Check formatting
-check-fmt:
-    bc-check-fmt
-
 # Format project
 fmt:
     bc-fmt
