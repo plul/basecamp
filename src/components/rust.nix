@@ -239,7 +239,7 @@ in
         in
         symlinkJoin {
           name = "basecamp-rust-toolchain";
-          inherit (base) meta;
+          inherit (base) meta passthru;
           paths =
             [ base ]
             ++ optionals (
