@@ -50,7 +50,7 @@ in
         name = "basecamp-toml-fmt";
         text = ''
           set -x
-          ${fd} --extension=toml --exec-batch ${taplo} fmt
+          RUST_LOG=taplo=warn ${fd} --extension=toml --exec-batch ${taplo} fmt
         '';
       })
     );
@@ -61,7 +61,7 @@ in
           name = "basecamp-toml-checks-fmt";
           text = ''
             set -x
-            ${fd} --extension=toml --exec-batch ${taplo} fmt --check
+            RUST_LOG=taplo=warn ${fd} --extension=toml --exec-batch ${taplo} fmt --check
           '';
         })
       );
@@ -71,7 +71,7 @@ in
           name = "basecamp-toml-checks-lint";
           text = ''
             set -x
-            ${fd} --extension=toml --exec-batch ${taplo} lint
+            RUST_LOG=taplo=warn ${fd} --extension=toml --exec-batch ${taplo} lint
           '';
         })
       );

@@ -134,10 +134,10 @@ in
           name = "basecamp-rust-checks-lint";
           runtimeInputs = [ config.rust.packages.is-direct-dependency ];
           text = ''
-            set -x
             if is-direct-dependency clap; then
               DEPENDS_ON_CLAP="yes"
             fi
+            set -x
             cargo clippy --workspace --all-features --tests --examples \
               ''${DEPENDS_ON_CLAP:+--features clap/deprecated} \
               -- \
@@ -166,8 +166,7 @@ in
         runtimeInputs = [ pkgs.jq ];
         text = ''
           DEP="''$1"
-          set -x
-          cargo metadata --format-version=1 --no-deps | jq --exit-status ".packages[] .dependencies[] | select(.name == \"''${DEP}\")"
+          cargo metadata --format-version=1 --no-deps | jq --exit-status ".packages[] .dependencies[] | select(.name == \"''${DEP}\")" > /dev/null
         '';
       };
     };
