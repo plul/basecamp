@@ -97,6 +97,8 @@ in
         nightly = mkToolchainOption;
       };
 
+    mold.enable = mkEnableOptionDefaultTrue "Enable linking with mold by setting env vars in devshell";
+
     fmt.enable = mkEnableOptionDefaultTrue "formatting of files";
     fmt.package = mkOption {
       description = "Package to execute to format files";
@@ -253,6 +255,13 @@ in
         };
       packages = [ config.rust.toolchain.package ];
     }
+
+    # Link with Mold
+    (mkIf cfg.mold.enable {
+      packages = [ pkgs.clang ];
+      env.CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER = "clang";
+      env.CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS = "-C link-arg=-fuse-ld=${pkgs.lib.getExe pkgs.mold}";
+    })
 
     # Add supporting packages
     {
