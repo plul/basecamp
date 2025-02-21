@@ -65,7 +65,7 @@ let
     members = []
 
     [workspace.package]
-    edition = "2021"
+    edition = "2024"
 
     [workspace.lints.rust]
     future_incompatible = { level = "deny", priority = -1 }
