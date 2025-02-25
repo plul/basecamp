@@ -60,7 +60,7 @@ let
   '';
   workspace_cargo_toml = ''
     [workspace]
-    resolver = "2"
+    resolver = "3"
 
     members = []
 
