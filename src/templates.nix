@@ -42,6 +42,7 @@ let
     }
   '';
   rustfmt = ''
+    edition = "2024"
     unstable_features = true
     version = "Two"
     imports_granularity = "Item"
