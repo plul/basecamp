@@ -134,29 +134,22 @@ in
         description = "Package to execute to perform linting";
         default = writeShellApplication {
           name = "basecamp-rust-checks-lint";
-          runtimeInputs = [ config.rust.packages.is-direct-dependency ];
+          runtimeInputs = [
+            config.rust.packages.is-direct-dependency
+            pkgs.cargo-shear
+          ];
           text = ''
             if is-direct-dependency clap; then
               DEPENDS_ON_CLAP="yes"
             fi
             set -x
+            cargo shear
             cargo clippy --workspace --all-features --tests --examples \
               ''${DEPENDS_ON_CLAP:+--features clap/deprecated} \
               -- \
               --deny warnings
           '';
         };
-      };
-    };
-
-    packages.cargo-udeps = {
-      enable = mkEnableOption "cargo-udeps";
-      package = mkOption {
-        description = "cargo-udeps package. By default this is a patched version of pkgs.cargo-udeps to account for cargo-udeps's dependency on nightly";
-        type = types.package;
-        default = writeShellScriptBin "cargo-udeps" ''
-          RUSTC_BOOTSTRAP=1 exec "${getExe pkgs.cargo-udeps}" "$@"
-        '';
       };
     };
 
@@ -265,7 +258,7 @@ in
 
     # Add supporting packages
     {
-      packages = [ ] ++ optionals cfg.packages.cargo-udeps.enable [ cfg.packages.cargo-udeps.package ];
+      packages = [ pkgs.cargo-shear ];
     }
   ]);
 }
