@@ -7,7 +7,6 @@
 let
   inherit (lib)
     optionals
-    getExe
     mkDefault
     mkEnableOption
     mkIf
@@ -15,7 +14,7 @@ let
     mkOption
     types
     ;
-  inherit (pkgs) writeShellApplication writeShellScriptBin symlinkJoin;
+  inherit (pkgs) writeShellApplication symlinkJoin;
   inherit (pkgs.basecamp) mkEnableOptionDefaultTrue;
   cfg = config.rust;
 in
@@ -108,6 +107,22 @@ in
         text = ''
           set -x
           cargo fmt
+        '';
+      };
+    };
+
+    fix.enable = mkEnableOptionDefaultTrue "automated fixes";
+    fix.package = mkOption {
+      description = "Package to execute to perform automated fixes";
+      type = types.package;
+      default = writeShellApplication {
+        name = "basecamp-rust-fix";
+        text = ''
+          set -x
+          cargo shear --fix
+          cargo update
+          cargo fix --workspace --all-features --tests --examples --allow-dirty --allow-staged
+          cargo clippy --fix --workspace --all-features --tests --examples --allow-dirty --allow-staged
         '';
       };
     };

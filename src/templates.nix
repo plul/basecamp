@@ -13,6 +13,10 @@ let
     # Format project
     fmt:
         bc-fmt
+
+    # Perform automated fixes
+    fix:
+        bc-fix
   '';
   flake = ''
     {

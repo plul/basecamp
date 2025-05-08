@@ -191,6 +191,16 @@ href="https://github.com/plul/basecamp/blob/master/src/components/mk-shell.nix">
 <li><a
 href="https://github.com/plul/basecamp/blob/master/src/components/mk-shell.nix">&lt;basecamp/src/components/mk-shell.nix&gt;</a></li>
 </ul>
+<h2>commands.fix.enable</h2>
+<p>Whether to enable <code>bc-fix</code> command.</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Example:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/components/mk-shell.nix">&lt;basecamp/src/components/mk-shell.nix&gt;</a></li>
+</ul>
 <h2>commands.fmt.enable</h2>
 <p>Whether to enable <code>bc-fmt</code> command.</p>
 <p><em>Type:</em> boolean</p>
@@ -566,26 +576,6 @@ href="https://github.com/plul/basecamp/blob/master/src/components/prettier.nix">
 <li><a
 href="https://github.com/plul/basecamp/blob/master/src/components/rust.nix">&lt;basecamp/src/components/rust.nix&gt;</a></li>
 </ul>
-<h2>rust.packages.cargo-udeps.enable</h2>
-<p>Whether to enable cargo-udeps.</p>
-<p><em>Type:</em> boolean</p>
-<p><em>Default:</em> <code>false</code></p>
-<p><em>Example:</em> <code>true</code></p>
-<p><em>Declared by:</em></p>
-<ul>
-<li><a
-href="https://github.com/plul/basecamp/blob/master/src/components/rust.nix">&lt;basecamp/src/components/rust.nix&gt;</a></li>
-</ul>
-<h2>rust.packages.cargo-udeps.package</h2>
-<p>cargo-udeps package. By default this is a patched version of
-pkgs.cargo-udeps to account for cargo-udeps’s dependency on nightly</p>
-<p><em>Type:</em> package</p>
-<p><em>Default:</em> <code>&lt;derivation cargo-udeps&gt;</code></p>
-<p><em>Declared by:</em></p>
-<ul>
-<li><a
-href="https://github.com/plul/basecamp/blob/master/src/components/rust.nix">&lt;basecamp/src/components/rust.nix&gt;</a></li>
-</ul>
 <h2>rust.packages.is-direct-dependency</h2>
 <p>Returns true if the given package is a direct dependency</p>
 <p><em>Type:</em> package</p>
@@ -641,6 +631,26 @@ href="https://github.com/plul/basecamp/blob/master/src/components/rust.nix">&lt;
 <p><em>Type:</em> package</p>
 <p><em>Default:</em>
 <code>&lt;derivation basecamp-rust-checks-lint&gt;</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/components/rust.nix">&lt;basecamp/src/components/rust.nix&gt;</a></li>
+</ul>
+<h2>rust.fix.enable</h2>
+<p>Whether to enable automated fixes.</p>
+<p><em>Type:</em> boolean</p>
+<p><em>Default:</em> <code>true</code></p>
+<p><em>Example:</em> <code>true</code></p>
+<p><em>Declared by:</em></p>
+<ul>
+<li><a
+href="https://github.com/plul/basecamp/blob/master/src/components/rust.nix">&lt;basecamp/src/components/rust.nix&gt;</a></li>
+</ul>
+<h2>rust.fix.package</h2>
+<p>Package to execute to perform automated fixes</p>
+<p><em>Type:</em> package</p>
+<p><em>Default:</em>
+<code>&lt;derivation basecamp-rust-fix&gt;</code></p>
 <p><em>Declared by:</em></p>
 <ul>
 <li><a

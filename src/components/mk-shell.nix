@@ -35,6 +35,7 @@ in
     commands = {
       check.enable = mkEnableOptionDefaultTrue "`bc-check` command";
       fmt.enable = mkEnableOptionDefaultTrue "`bc-fmt` command";
+      fix.enable = mkEnableOptionDefaultTrue "`bc-fix` command";
     };
 
     shell = mkOption {
@@ -93,6 +94,20 @@ in
               ${f (config.nickel.enable && config.nickel.fmt.enable) config.nickel.fmt.package}
               ${f (config.nix.enable && config.nix.fmt.enable) config.nix.fmt.package}
               ${f (config.markdown.enable && config.markdown.fmt.enable) config.markdown.fmt.package}
+            '';
+          })
+        ]
+        ++ optionals config.commands.fix.enable [
+          (writeShellApplication {
+            name = "bc-fix";
+            text = ''
+              ${f (config.rust.enable && config.rust.fix.enable) config.rust.fix.package}
+              ${f (
+                config.rust.enable && config.rust.fix.enable && config.rust.fmt.enable
+              ) config.rust.fmt.package}
+              ${f (
+                config.rust.enable && config.rust.fix.enable && config.toml.enable && config.toml.fmt.enable
+              ) config.toml.fmt.package}
             '';
           })
         ];
