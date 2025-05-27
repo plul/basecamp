@@ -48,7 +48,6 @@ let
   rustfmt = ''
     edition = "2024"
     unstable_features = true
-    version = "Two"
     imports_granularity = "Item"
     group_imports = "One"
     use_field_init_shorthand = true
