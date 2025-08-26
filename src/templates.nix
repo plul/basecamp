@@ -115,8 +115,11 @@ in
       git add flake.nix
 
       # Direnv
-      echo 'use flake' > .envrc
+      touch .envrc
+      echo 'use flake' >> .envrc
+      echo 'source_env_if_exists .envrc.local' >> .envrc
       echo '/.direnv/' >> .gitignore
+      echo '.envrc.local' >> .gitignore
 
       # Justfile
       echo '${justfile}' > justfile
