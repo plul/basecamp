@@ -77,6 +77,8 @@ let
     rust_2018_idioms = { level = "deny", priority = -1 }
     missing_docs = "warn"
     missing_debug_implementations = "warn"
+    [workspace.lints.clippy]
+    mod_module_files = { level = "deny" }
   '';
   main_rs = ''
     //! <docstring>.
