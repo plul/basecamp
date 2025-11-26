@@ -120,7 +120,6 @@ in
         text = ''
           set -x
           cargo shear --fix
-          cargo update
           cargo fix --workspace --all-features --tests --examples --allow-dirty --allow-staged
           cargo clippy --fix --workspace --all-features --tests --examples --allow-dirty --allow-staged
         '';
@@ -249,17 +248,18 @@ in
         symlinkJoin {
           name = "basecamp-rust-toolchain";
           inherit (base) meta passthru;
-          paths =
-            [ base ]
-            ++ optionals (
-              cfg.toolchain.channel != "stable" && builtins.length cfg.toolchain.stable.components > 0
-            ) [ cfg.toolchain.stable.package ]
-            ++ optionals (
-              cfg.toolchain.channel != "beta" && builtins.length cfg.toolchain.beta.components > 0
-            ) [ cfg.toolchain.beta.package ]
-            ++ optionals (
-              cfg.toolchain.channel != "nightly" && builtins.length cfg.toolchain.nightly.components > 0
-            ) [ cfg.toolchain.nightly.package ];
+          paths = [
+            base
+          ]
+          ++ optionals (
+            cfg.toolchain.channel != "stable" && builtins.length cfg.toolchain.stable.components > 0
+          ) [ cfg.toolchain.stable.package ]
+          ++ optionals (
+            cfg.toolchain.channel != "beta" && builtins.length cfg.toolchain.beta.components > 0
+          ) [ cfg.toolchain.beta.package ]
+          ++ optionals (
+            cfg.toolchain.channel != "nightly" && builtins.length cfg.toolchain.nightly.components > 0
+          ) [ cfg.toolchain.nightly.package ];
         };
       packages = [ config.rust.toolchain.package ];
     }
