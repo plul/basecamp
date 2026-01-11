@@ -27,7 +27,7 @@ in
     enable = mkEnableOptionDefaultTrue "nix module";
     nixfmt = {
       enable = mkEnableOptionDefaultTrue "nixfmt formatter";
-      package = mkPackageOption pkgs "nixfmt-rfc-style" { };
+      package = mkPackageOption pkgs "nixfmt" { };
     };
     nixpkgs-lint = {
       enable = mkEnableOptionDefaultTrue "nixpkgs-lint linter";

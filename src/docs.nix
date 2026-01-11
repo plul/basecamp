@@ -2,7 +2,7 @@
 
 let
   inherit (pkgs) lib;
-  options-markdown = self.packages.${pkgs.system}.options-markdown;
+  options-markdown = self.packages.${pkgs.stdenv.hostPlatform.system}.options-markdown;
 in
 {
   # Exports the option set as markdown docs
