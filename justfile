@@ -4,7 +4,7 @@ _list:
 # Check project
 check:
     bc-check
-    nix flake check --verbose
+    nix flake check --abort-on-warn --show-trace
 
 # Format project
 fmt:
