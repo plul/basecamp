@@ -115,12 +115,19 @@
         in
         {
           inherit (docs) options-markdown docs;
+          inherit (templates) template;
           inherit (templates) template-rust;
         };
 
-      apps."x86_64-linux".template-rust = {
-        type = "app";
-        program = "${self.packages."x86_64-linux".template-rust}/bin/bc-template-rust";
+      apps."x86_64-linux" = {
+        template-rust = {
+          type = "app";
+          program = "${self.packages."x86_64-linux".template-rust}/bin/bc-template-rust";
+        };
+        template = {
+          type = "app";
+          program = "${self.packages."x86_64-linux".template}/bin/bc-template";
+        };
       };
 
       devShells."x86_64-linux" =
